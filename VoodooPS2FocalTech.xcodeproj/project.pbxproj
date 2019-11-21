@@ -1,0 +1,487 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		733F691D236384DB0073BAC3 /* VoodooPS2FocalTech.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F691C236384DB0073BAC3 /* VoodooPS2FocalTech.hpp */; };
+		733F691F236384DB0073BAC3 /* VoodooPS2FocalTech.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F691E236384DB0073BAC3 /* VoodooPS2FocalTech.cpp */; };
+		733F694A23638A290073BAC3 /* libkmod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 733F694423638A290073BAC3 /* libkmod.a */; };
+		733F694B23638A290073BAC3 /* compat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F694523638A290073BAC3 /* compat.cpp */; };
+		733F694C23638A290073BAC3 /* LegacyIOHIPointing.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F694623638A290073BAC3 /* LegacyIOHIPointing.h */; };
+		733F694D23638A290073BAC3 /* LegacyIOHIKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F694723638A290073BAC3 /* LegacyIOHIKeyboard.h */; };
+		733F694E23638A290073BAC3 /* LegacyLibkernMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F694823638A290073BAC3 /* LegacyLibkernMacros.h */; };
+		733F694F23638A290073BAC3 /* LegacyIOService.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F694923638A290073BAC3 /* LegacyIOService.h */; };
+		733F695523638A350073BAC3 /* VoodooPS2Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F695023638A350073BAC3 /* VoodooPS2Controller.h */; };
+		733F695623638A350073BAC3 /* ApplePS2KeyboardDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F695123638A350073BAC3 /* ApplePS2KeyboardDevice.h */; };
+		733F695723638A350073BAC3 /* AppleACPIPS2Nub.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F695223638A350073BAC3 /* AppleACPIPS2Nub.h */; };
+		733F695823638A350073BAC3 /* ApplePS2Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F695323638A350073BAC3 /* ApplePS2Device.h */; };
+		733F695923638A350073BAC3 /* ApplePS2MouseDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F695423638A350073BAC3 /* ApplePS2MouseDevice.h */; };
+		733F696823638A8D0073BAC3 /* VoodooPS2MultitouchEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F695A23638A8D0073BAC3 /* VoodooPS2MultitouchEngine.cpp */; };
+		733F696923638A8D0073BAC3 /* VoodooPS2MultitouchEngine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F695B23638A8D0073BAC3 /* VoodooPS2MultitouchEngine.hpp */; };
+		733F696A23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F695D23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.cpp */; };
+		733F696B23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F695E23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.cpp */; };
+		733F696C23638A8D0073BAC3 /* VoodooPS2NativeEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F695F23638A8D0073BAC3 /* VoodooPS2NativeEngine.cpp */; };
+		733F696D23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F696023638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.hpp */; };
+		733F696E23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F696123638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.hpp */; };
+		733F696F23638A8D0073BAC3 /* VoodooPS2NativeEngine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F696223638A8D0073BAC3 /* VoodooPS2NativeEngine.hpp */; };
+		733F697023638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F696323638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.cpp */; };
+		733F697123638A8D0073BAC3 /* VoodooPS2MultitouchInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F696423638A8D0073BAC3 /* VoodooPS2MultitouchInterface.cpp */; };
+		733F697223638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F696523638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.hpp */; };
+		733F697323638A8D0073BAC3 /* VoodooPS2MultitouchInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F696623638A8D0073BAC3 /* VoodooPS2MultitouchInterface.hpp */; };
+		733F697423638A8D0073BAC3 /* MultitouchHelpers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F696723638A8D0073BAC3 /* MultitouchHelpers.hpp */; };
+		733F697623638CF70073BAC3 /* LegacyIOHIDDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 733F697523638CF70073BAC3 /* LegacyIOHIDDevice.h */; };
+		733F697A23638DC50073BAC3 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 733F697823638DC50073BAC3 /* helpers.cpp */; };
+		733F697B23638DC50073BAC3 /* helpers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 733F697923638DC50073BAC3 /* helpers.hpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		733F6919236384DB0073BAC3 /* VoodooPS2FocalTech.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoodooPS2FocalTech.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		733F691C236384DB0073BAC3 /* VoodooPS2FocalTech.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2FocalTech.hpp; sourceTree = "<group>"; };
+		733F691E236384DB0073BAC3 /* VoodooPS2FocalTech.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2FocalTech.cpp; sourceTree = "<group>"; };
+		733F6920236384DB0073BAC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		733F694423638A290073BAC3 /* libkmod.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libkmod.a; sourceTree = "<group>"; };
+		733F694523638A290073BAC3 /* compat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compat.cpp; sourceTree = "<group>"; };
+		733F694623638A290073BAC3 /* LegacyIOHIPointing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacyIOHIPointing.h; sourceTree = "<group>"; };
+		733F694723638A290073BAC3 /* LegacyIOHIKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacyIOHIKeyboard.h; sourceTree = "<group>"; };
+		733F694823638A290073BAC3 /* LegacyLibkernMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacyLibkernMacros.h; sourceTree = "<group>"; };
+		733F694923638A290073BAC3 /* LegacyIOService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacyIOService.h; sourceTree = "<group>"; };
+		733F695023638A350073BAC3 /* VoodooPS2Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoodooPS2Controller.h; sourceTree = "<group>"; };
+		733F695123638A350073BAC3 /* ApplePS2KeyboardDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePS2KeyboardDevice.h; sourceTree = "<group>"; };
+		733F695223638A350073BAC3 /* AppleACPIPS2Nub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleACPIPS2Nub.h; sourceTree = "<group>"; };
+		733F695323638A350073BAC3 /* ApplePS2Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePS2Device.h; sourceTree = "<group>"; };
+		733F695423638A350073BAC3 /* ApplePS2MouseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePS2MouseDevice.h; sourceTree = "<group>"; };
+		733F695A23638A8D0073BAC3 /* VoodooPS2MultitouchEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2MultitouchEngine.cpp; sourceTree = "<group>"; };
+		733F695B23638A8D0073BAC3 /* VoodooPS2MultitouchEngine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2MultitouchEngine.hpp; sourceTree = "<group>"; };
+		733F695D23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2MT2SimulatorDevice.cpp; sourceTree = "<group>"; };
+		733F695E23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2MT2ActuatorDevice.cpp; sourceTree = "<group>"; };
+		733F695F23638A8D0073BAC3 /* VoodooPS2NativeEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2NativeEngine.cpp; sourceTree = "<group>"; };
+		733F696023638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2MT2ActuatorDevice.hpp; sourceTree = "<group>"; };
+		733F696123638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2MT2SimulatorDevice.hpp; sourceTree = "<group>"; };
+		733F696223638A8D0073BAC3 /* VoodooPS2NativeEngine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2NativeEngine.hpp; sourceTree = "<group>"; };
+		733F696323638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2DigitiserTransducer.cpp; sourceTree = "<group>"; };
+		733F696423638A8D0073BAC3 /* VoodooPS2MultitouchInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = VoodooPS2MultitouchInterface.cpp; sourceTree = "<group>"; };
+		733F696523638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2DigitiserTransducer.hpp; sourceTree = "<group>"; };
+		733F696623638A8D0073BAC3 /* VoodooPS2MultitouchInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = VoodooPS2MultitouchInterface.hpp; sourceTree = "<group>"; };
+		733F696723638A8D0073BAC3 /* MultitouchHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = MultitouchHelpers.hpp; sourceTree = "<group>"; };
+		733F697523638CF70073BAC3 /* LegacyIOHIDDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegacyIOHIDDevice.h; sourceTree = "<group>"; };
+		733F697823638DC50073BAC3 /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helpers.cpp; sourceTree = "<group>"; };
+		733F697923638DC50073BAC3 /* helpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = helpers.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		733F6916236384DB0073BAC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				733F694A23638A290073BAC3 /* libkmod.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		733F690F236384DB0073BAC3 = {
+			isa = PBXGroup;
+			children = (
+				733F691B236384DB0073BAC3 /* VoodooPS2FocalTech */,
+				733F691A236384DB0073BAC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		733F691A236384DB0073BAC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				733F6919236384DB0073BAC3 /* VoodooPS2FocalTech.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		733F691B236384DB0073BAC3 /* VoodooPS2FocalTech */ = {
+			isa = PBXGroup;
+			children = (
+				733F693E236389470073BAC3 /* Library */,
+				733F6941236389770073BAC3 /* Multitouch Support */,
+				733F69402363896B0073BAC3 /* VoodooPS2Controller */,
+				733F691E236384DB0073BAC3 /* VoodooPS2FocalTech.cpp */,
+				733F691C236384DB0073BAC3 /* VoodooPS2FocalTech.hpp */,
+				733F6943236389D20073BAC3 /* Supporting Files */,
+			);
+			path = VoodooPS2FocalTech;
+			sourceTree = "<group>";
+		};
+		733F693E236389470073BAC3 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				733F694523638A290073BAC3 /* compat.cpp */,
+				733F697523638CF70073BAC3 /* LegacyIOHIDDevice.h */,
+				733F694723638A290073BAC3 /* LegacyIOHIKeyboard.h */,
+				733F694623638A290073BAC3 /* LegacyIOHIPointing.h */,
+				733F694923638A290073BAC3 /* LegacyIOService.h */,
+				733F694823638A290073BAC3 /* LegacyLibkernMacros.h */,
+				733F694423638A290073BAC3 /* libkmod.a */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		733F69402363896B0073BAC3 /* VoodooPS2Controller */ = {
+			isa = PBXGroup;
+			children = (
+				733F695223638A350073BAC3 /* AppleACPIPS2Nub.h */,
+				733F695323638A350073BAC3 /* ApplePS2Device.h */,
+				733F695123638A350073BAC3 /* ApplePS2KeyboardDevice.h */,
+				733F695423638A350073BAC3 /* ApplePS2MouseDevice.h */,
+				733F695023638A350073BAC3 /* VoodooPS2Controller.h */,
+			);
+			path = VoodooPS2Controller;
+			sourceTree = "<group>";
+		};
+		733F6941236389770073BAC3 /* Multitouch Support */ = {
+			isa = PBXGroup;
+			children = (
+				733F697723638D9C0073BAC3 /* Dependencies */,
+				733F695C23638A8D0073BAC3 /* Native */,
+				733F696723638A8D0073BAC3 /* MultitouchHelpers.hpp */,
+				733F696323638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.cpp */,
+				733F696523638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.hpp */,
+				733F695A23638A8D0073BAC3 /* VoodooPS2MultitouchEngine.cpp */,
+				733F695B23638A8D0073BAC3 /* VoodooPS2MultitouchEngine.hpp */,
+				733F696423638A8D0073BAC3 /* VoodooPS2MultitouchInterface.cpp */,
+				733F696623638A8D0073BAC3 /* VoodooPS2MultitouchInterface.hpp */,
+			);
+			path = "Multitouch Support";
+			sourceTree = "<group>";
+		};
+		733F6943236389D20073BAC3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				733F6920236384DB0073BAC3 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		733F695C23638A8D0073BAC3 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				733F695E23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.cpp */,
+				733F696023638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.hpp */,
+				733F695D23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.cpp */,
+				733F696123638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.hpp */,
+				733F695F23638A8D0073BAC3 /* VoodooPS2NativeEngine.cpp */,
+				733F696223638A8D0073BAC3 /* VoodooPS2NativeEngine.hpp */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
+		733F697723638D9C0073BAC3 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				733F697823638DC50073BAC3 /* helpers.cpp */,
+				733F697923638DC50073BAC3 /* helpers.hpp */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		733F6914236384DB0073BAC3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				733F697323638A8D0073BAC3 /* VoodooPS2MultitouchInterface.hpp in Headers */,
+				733F695823638A350073BAC3 /* ApplePS2Device.h in Headers */,
+				733F695723638A350073BAC3 /* AppleACPIPS2Nub.h in Headers */,
+				733F696923638A8D0073BAC3 /* VoodooPS2MultitouchEngine.hpp in Headers */,
+				733F696E23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.hpp in Headers */,
+				733F697223638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.hpp in Headers */,
+				733F695523638A350073BAC3 /* VoodooPS2Controller.h in Headers */,
+				733F697623638CF70073BAC3 /* LegacyIOHIDDevice.h in Headers */,
+				733F694F23638A290073BAC3 /* LegacyIOService.h in Headers */,
+				733F694E23638A290073BAC3 /* LegacyLibkernMacros.h in Headers */,
+				733F694C23638A290073BAC3 /* LegacyIOHIPointing.h in Headers */,
+				733F695623638A350073BAC3 /* ApplePS2KeyboardDevice.h in Headers */,
+				733F697423638A8D0073BAC3 /* MultitouchHelpers.hpp in Headers */,
+				733F695923638A350073BAC3 /* ApplePS2MouseDevice.h in Headers */,
+				733F696D23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.hpp in Headers */,
+				733F694D23638A290073BAC3 /* LegacyIOHIKeyboard.h in Headers */,
+				733F691D236384DB0073BAC3 /* VoodooPS2FocalTech.hpp in Headers */,
+				733F696F23638A8D0073BAC3 /* VoodooPS2NativeEngine.hpp in Headers */,
+				733F697B23638DC50073BAC3 /* helpers.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		733F6918236384DB0073BAC3 /* VoodooPS2FocalTech */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 733F6923236384DB0073BAC3 /* Build configuration list for PBXNativeTarget "VoodooPS2FocalTech" */;
+			buildPhases = (
+				733F6914236384DB0073BAC3 /* Headers */,
+				733F6915236384DB0073BAC3 /* Sources */,
+				733F6916236384DB0073BAC3 /* Frameworks */,
+				733F6917236384DB0073BAC3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoodooPS2FocalTech;
+			productName = VoodooPS2FocalTech;
+			productReference = 733F6919236384DB0073BAC3 /* VoodooPS2FocalTech.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		733F6910236384DB0073BAC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = chilledHamza;
+				TargetAttributes = {
+					733F6918236384DB0073BAC3 = {
+						CreatedOnToolsVersion = 11.1;
+					};
+				};
+			};
+			buildConfigurationList = 733F6913236384DB0073BAC3 /* Build configuration list for PBXProject "VoodooPS2FocalTech" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 733F690F236384DB0073BAC3;
+			productRefGroup = 733F691A236384DB0073BAC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				733F6918236384DB0073BAC3 /* VoodooPS2FocalTech */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		733F6917236384DB0073BAC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		733F6915236384DB0073BAC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				733F691F236384DB0073BAC3 /* VoodooPS2FocalTech.cpp in Sources */,
+				733F696B23638A8D0073BAC3 /* VoodooPS2MT2ActuatorDevice.cpp in Sources */,
+				733F694B23638A290073BAC3 /* compat.cpp in Sources */,
+				733F696A23638A8D0073BAC3 /* VoodooPS2MT2SimulatorDevice.cpp in Sources */,
+				733F697023638A8D0073BAC3 /* VoodooPS2DigitiserTransducer.cpp in Sources */,
+				733F696C23638A8D0073BAC3 /* VoodooPS2NativeEngine.cpp in Sources */,
+				733F697123638A8D0073BAC3 /* VoodooPS2MultitouchInterface.cpp in Sources */,
+				733F697A23638DC50073BAC3 /* helpers.cpp in Sources */,
+				733F696823638A8D0073BAC3 /* VoodooPS2MultitouchEngine.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		733F6921236384DB0073BAC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				"LLVM_LTO[arch=x86_64]" = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULE_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				OBJROOT = "$(SYMROOT)";
+				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=x86_64]" = "-dead_strip";
+				PRODUCT_NAME = VoodooPS2FocalTech;
+				SDKROOT = macosx;
+				SYMROOT = build/Products;
+			};
+			name = Debug;
+		};
+		733F6922236384DB0073BAC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				"LLVM_LTO[arch=x86_64]" = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULE_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OBJROOT = "$(SYMROOT)";
+				"OTHER_LDFLAGS[arch=x86_64]" = "-dead_strip";
+				PRODUCT_NAME = VoodooPS2FocalTech;
+				SDKROOT = macosx;
+				SYMROOT = build/Products;
+			};
+			name = Release;
+		};
+		733F6924236384DB0073BAC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CURRENT_PROJECT_VERSION = 1.0.0;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VoodooPS2FocalTech/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VoodooPS2FocalTech/Library",
+				);
+				MARKETING_VERSION = 1.0.0;
+				MODULE_NAME = me.chilledHamza.VoodooPS2FocalTech;
+				PRODUCT_BUNDLE_IDENTIFIER = me.chilledHamza.VoodooPS2FocalTech;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		733F6925236384DB0073BAC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CURRENT_PROJECT_VERSION = 1.0.0;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VoodooPS2FocalTech/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VoodooPS2FocalTech/Library",
+				);
+				MARKETING_VERSION = 1.0.0;
+				MODULE_NAME = me.chilledHamza.VoodooPS2FocalTech;
+				PRODUCT_BUNDLE_IDENTIFIER = me.chilledHamza.VoodooPS2FocalTech;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		733F6913236384DB0073BAC3 /* Build configuration list for PBXProject "VoodooPS2FocalTech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				733F6921236384DB0073BAC3 /* Debug */,
+				733F6922236384DB0073BAC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		733F6923236384DB0073BAC3 /* Build configuration list for PBXNativeTarget "VoodooPS2FocalTech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				733F6924236384DB0073BAC3 /* Debug */,
+				733F6925236384DB0073BAC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 733F6910236384DB0073BAC3 /* Project object */;
+}
