@@ -71,7 +71,7 @@ bool ApplePS2FocalTechTouchPad::init(OSDictionary * dict)
     _isReadNext                = false;
     _fingerCount               = 0;
     keytime                    = 0;
-    maxaftertyping             = 500000000;
+    maxaftertyping             = 0;
     
     return true;
 }
@@ -404,7 +404,7 @@ void ApplePS2FocalTechTouchPad::sendTouchDataToMultiTouchInterface() {
     uint64_t timestamp_ns;
     absolutetime_to_nanoseconds(timestamp, &timestamp_ns);
     
-    if (timestamp_ns - keytime < maxaftertyping)
+    if ((maxaftertyping > 0) && (timestamp_ns - keytime < maxaftertyping))
         return;
     
     int count = 0;
