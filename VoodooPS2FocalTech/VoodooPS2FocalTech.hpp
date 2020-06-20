@@ -33,7 +33,9 @@
 
 #define FOCALTECH_MAX_FINGERS 4
 
-#define kPacketLength       8
+#define kPacketLengthSmall  8
+#define kPacketLengthLarge  16
+#define kPacketLengthMax    16
 
 #define kGetProductId       0xA7
 #define kSetDeviceMode      0xEA
@@ -49,12 +51,6 @@ struct focaltech_hw_state {
     int x;
     int y;
     bool valid;
-    /*
-     VoodooI2CMT2SimulatorDevice use static values for pressure, major and minor
-    int z;
-    int minor;
-    int major;
-    */
 };
 
 typedef struct FTE_BYTES
@@ -68,10 +64,10 @@ class EXPORT ApplePS2FocalTechTouchPad : public IOHIPointing
 {
     typedef IOHIPointing super;
     OSDeclareDefaultStructors(ApplePS2FocalTechTouchPad);
-
+    
 private:
     ApplePS2MouseDevice * _device;
-    RingBuffer<UInt8,kPacketLength*32> _ringBuffer;
+    RingBuffer<UInt8,kPacketLengthMax*32> _ringBuffer;
     UInt32                _packetByteCount;
     uint64_t              keytime;
     uint64_t              maxaftertyping;
@@ -92,7 +88,7 @@ private:
     void unpublish_multitouch_interface();
     bool init_multitouch_interface();
     void sendTouchDataToMultiTouchInterface();
-
+    
 protected:
     virtual void   doHardwareReset();
     virtual void   switchProtocol();
@@ -102,7 +98,7 @@ protected:
     virtual void   setTouchPadEnable( bool enable );
     virtual void   setDevicePowerState(UInt32 whatToDo);
     virtual PS2InterruptResult interruptOccurred(UInt8 data);
-
+    
 protected:
 public:
     bool init( OSDictionary * properties ) override;

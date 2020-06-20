@@ -52,7 +52,7 @@ bool ApplePS2FocalTechTouchPad::init(OSDictionary * dict)
     
     if (!super::init(dict))
         return false;
-
+    
     transducers = OSArray::withCapacity(FOCALTECH_MAX_FINGERS);
     if (!transducers) {
         return false;
@@ -97,20 +97,20 @@ ApplePS2FocalTechTouchPad* ApplePS2FocalTechTouchPad::probe(IOService * provider
     // won't send any asynchronous mouse data that may mess up the
     // responses expected by the commands we send it).
     //
-
+    
     bool success = false;
-
+    
     _device = (ApplePS2MouseDevice *) provider;
     
     ApplePS2FocalTechTouchPad::getProductID(&bytes);
     
     if(bytes.byte0 == 0x58 && bytes.byte1 == 0x00 && bytes.byte2 == 0x05)
         success = true;
-
+    
     IOLog("%s :: FTE0001 ? %s\n", getName(), (success ? "yes" : "no"));
     
     _device = 0;
-
+    
     IOLog("%s :: probe leaving.\n", getName());
     
     return (success) ? this : 0;
@@ -124,14 +124,14 @@ bool ApplePS2FocalTechTouchPad::start(IOService * provider)
     // The driver has been instructed to start. This is called after a
     // successful probe and match.
     //
-
+    
     if (!super::start(provider))
         return false;
-
+    
     //
     // Maintain a pointer to and retain the provider object.
     //
-
+    
     _device = (ApplePS2MouseDevice *) provider;
     _device->retain();
     
@@ -164,14 +164,13 @@ bool ApplePS2FocalTechTouchPad::start(IOService * provider)
     //
     // Enable the mouse clock (should already be so) and the mouse IRQ line.
     //
-
+    
     //
     // Install our driver's interrupt handler, for asynchronous data delivery.
     //
     
-    _device->installInterruptAction(this,
-                                    OSMemberFunctionCast(PS2InterruptAction, this, &ApplePS2FocalTechTouchPad::interruptOccurred),
-                                    OSMemberFunctionCast(PS2PacketAction, this, &ApplePS2FocalTechTouchPad::packetReady));
+    _device->installInterruptAction(this, OSMemberFunctionCast(PS2InterruptAction, this, &ApplePS2FocalTechTouchPad::interruptOccurred), OSMemberFunctionCast(PS2PacketAction, this, &ApplePS2FocalTechTouchPad::packetReady));
+    
     _interruptHandlerInstalled = true;
     
     
@@ -182,15 +181,15 @@ bool ApplePS2FocalTechTouchPad::start(IOService * provider)
     //
     // Install our power control handler.
     //
-
-    _device->installPowerControlAction( this, OSMemberFunctionCast(PS2PowerControlAction,this,
-             &ApplePS2FocalTechTouchPad::setDevicePowerState) );
+    
+    _device->installPowerControlAction( this, OSMemberFunctionCast(PS2PowerControlAction,this, &ApplePS2FocalTechTouchPad::setDevicePowerState));
+    
     _powerControlHandlerInstalled = true;
     
     if(mt_interface) {
         mt_interface->registerService();
     }
-
+    
     return true;
 }
 
@@ -203,29 +202,29 @@ void ApplePS2FocalTechTouchPad::stop( IOService * provider )
     // connections to other service objects now (ie. no registered actions,
     // no pointers and retains to objects, etc), if any.
     //
-
+    
     assert(_device == provider);
     
     //
     // Disable the mouse itself, so that it may stop reporting mouse events.
     //
-
+    
     setTouchPadEnable(false);
     
     //
     // Uninstall the interrupt handler.
     //
-
+    
     if ( _interruptHandlerInstalled )  _device->uninstallInterruptAction();
     _interruptHandlerInstalled = false;
-
+    
     //
     // Uninstall the power control handler.
     //
-
+    
     if ( _powerControlHandlerInstalled ) _device->uninstallPowerControlAction();
     _powerControlHandlerInstalled = false;
-
+    
     //
     // Release the pointer to the provider object.
     //
@@ -266,7 +265,7 @@ bool ApplePS2FocalTechTouchPad::publish_multitouch_interface() {
     // 0x04f3 is Elan's Vendor Id
     mt_interface->setProperty(kIOHIDVendorIDKey, 0x04f3, 32);
     mt_interface->setProperty(kIOHIDProductIDKey, 0x01, 32);
-
+    
     
     return true;
 multitouch_exit:
@@ -279,6 +278,7 @@ multitouch_exit:
 void ApplePS2FocalTechTouchPad::unpublish_multitouch_interface() {
     if (mt_interface) {
         mt_interface->stop(this);
+        mt_interface->detach(this);
     }
 }
 
@@ -306,7 +306,7 @@ PS2InterruptResult ApplePS2FocalTechTouchPad::interruptOccurred(UInt8 data)
     // Ignore all bytes until we see the start of a packet, otherwise the
     // packets may get out of sequence and things will get very confusing.
     //
-        
+    
     if (0 == _packetByteCount && (data & 0xc8) != 0x08 && (data & 0xf8) != 0xf8)
     {
         IOLog("%s :: Unexpected byte0 data (%02x) from PS/2 controller\n", getName(), data);
@@ -315,9 +315,19 @@ PS2InterruptResult ApplePS2FocalTechTouchPad::interruptOccurred(UInt8 data)
     
     UInt8* packet = _ringBuffer.head();
     packet[_packetByteCount++] = data;
-    if (kPacketLength == _packetByteCount)
+    
+    if (5 == _packetByteCount)
+        _fingerCount = (int)(data & 3) + ((data & 48) >> 2);
+    
+    if (kPacketLengthLarge == _packetByteCount || kPacketLengthSmall == _packetByteCount)
     {
-        _ringBuffer.advanceHead(kPacketLength);
+        // complete 16 or 8-byte packet received...
+        if (_fingerCount > 2 && _isReadNext == false){
+            _isReadNext = true;
+            return kPS2IR_packetBuffering;
+        }
+        _ringBuffer.advanceHead(kPacketLengthMax);
+        _isReadNext = false;
         _packetByteCount = 0;
         return kPS2IR_packetReady;
     }
@@ -327,12 +337,12 @@ PS2InterruptResult ApplePS2FocalTechTouchPad::interruptOccurred(UInt8 data)
 void ApplePS2FocalTechTouchPad::packetReady()
 {
     // empty the ring buffer, dispatching each packet...
-    while (_ringBuffer.count() >= kPacketLength)
+    while (_ringBuffer.count() >= kPacketLengthMax)
     {
         UInt8* packet = _ringBuffer.tail();
         // now we have complete packet
         parsePacket(packet);
-        _ringBuffer.advanceTail(kPacketLength);
+        _ringBuffer.advanceTail(kPacketLengthMax);
     }
 }
 
@@ -340,53 +350,33 @@ void ApplePS2FocalTechTouchPad::packetReady()
 
 void ApplePS2FocalTechTouchPad::parsePacket(UInt8* packet)
 {
-    if (!_isReadNext)
-    {
-        for (int i = 0; i < 8; i++)
-            _lastDeviceData[i] = packet[i];
-        for (int i = 8; i < 16; i++)
-            _lastDeviceData[i] = 0xff;
-        _fingerCount = (int)(packet[4] & 3) + ((packet[4] & 48) >> 2);
-        if ((_fingerCount > 2) && (packet[0] != 0xff && packet[1] != 0xff && packet[2] != 0xff && packet[3] != 0xff) && (packet[0] & 48) != 32)
-            {
-                _isReadNext = true;
-            }
-    }
+    if (!(_fingerCount > 2))
+        for (int i = 8; i < kPacketLengthMax; i++)
+            packet[i] = 0xff;
+    
+    if ((packet[0] & 1) == 1)   // Left Button
+        left = 1;
     else
+        left = 0;
+    if ((packet[0] & 2) == 2)   // Right Button
+        right = 1;
+    else
+        right = 0;
+    if ((packet[0] & 48) != 16)
     {
-        _isReadNext = false;
-        for (int i = 8; i < 16; i++)
-            _lastDeviceData[i] = packet[i-8];
-    }
-    if (!_isReadNext)
-    {
-        if (!(_lastDeviceData[0] == 0xff && _lastDeviceData[1] == 0xff && _lastDeviceData[2] == 0xff && _lastDeviceData[3] == 0xff))
+        for (int i = 0; i < 4; i++)
         {
-            if ((_lastDeviceData[0] & 1) == 1)   // Left Button
-                left = 1;
-            else
-                left = 0;
-            if ((_lastDeviceData[0] & 2) == 2)   // Right Button
-                right = 1;
-            else
-                right = 0;
-            if ((_lastDeviceData[0] & 48) != 16)
+            int j = (i * 4);
+            if (!(packet[j+1] == 0xff && packet[j+2] == 0xff && packet[j+3] == 0xff))
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    int j = (i * 4);
-                    if (!(_lastDeviceData[j+1] == 0xff && _lastDeviceData[j+2] == 0xff && _lastDeviceData[j+3] == 0xff))
-                    {
-                        fingerStates[i].valid = true;
-                        fingerStates[i].x = (_lastDeviceData[j+1] << 4) + ((_lastDeviceData[j+3] & 0xf0) >> 4);
-                        fingerStates[i].y = (_lastDeviceData[j+2] << 4) + (_lastDeviceData[j+3] & 0x0f);
-                    }
-                    else
-                        fingerStates[i].valid = false;
-                }
-                sendTouchDataToMultiTouchInterface();
+                fingerStates[i].valid = true;
+                fingerStates[i].x = (packet[j+1] << 4) + ((packet[j+3] & 0xf0) >> 4);
+                fingerStates[i].y = (packet[j+2] << 4) + (packet[j+3] & 0x0f);
             }
+            else
+                fingerStates[i].valid = false;
         }
+        sendTouchDataToMultiTouchInterface();
     }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -394,9 +384,9 @@ void ApplePS2FocalTechTouchPad::parsePacket(UInt8* packet)
 void ApplePS2FocalTechTouchPad::sendTouchDataToMultiTouchInterface() {
     if(!mt_interface)
         return;
-    // physical Buttons
+    
     UInt32 buttons = 0;
-    buttons |= left ? 0x01 : 0;
+    buttons |= left  ? 0x01 : 0;
     buttons |= right ? 0x02 : 0;
     
     AbsoluteTime timestamp;
@@ -411,31 +401,31 @@ void ApplePS2FocalTechTouchPad::sendTouchDataToMultiTouchInterface() {
     for (int i = 0; i < FOCALTECH_MAX_FINGERS; i++) {
         focaltech_hw_state *state = &fingerStates[i];
         VoodooPS2DigitiserTransducer* transducer = OSDynamicCast(VoodooPS2DigitiserTransducer, transducers->getObject(i));
-                transducer->type = kDigitiserTransducerFinger;
+        transducer->type = kDigitiserTransducerFinger;
         if(!transducer)
             continue;
         
         transducer->is_valid = state->valid;
         
         if(state->valid){
-                if(mt_interface){
-                    transducer->logical_max_x = mt_interface->logical_max_x;
-                    transducer->logical_max_y = mt_interface->logical_max_y;
-                }
-                transducer->coordinates.x.update(state->x, timestamp);
-                transducer->coordinates.y.update(state->y, timestamp);
-                transducer->tip_switch.update(1, timestamp);
-                transducer->id = i;
-                transducer->secondary_id = i;
-                count++;
-            } else{
-                transducer->id = i;
-                transducer->secondary_id = i;
-                transducer->coordinates.x.update(transducer->coordinates.x.last.value, timestamp);
-                transducer->coordinates.y.update(transducer->coordinates.y.last.value, timestamp);
-                transducer->tip_switch.update(0, timestamp);
+            if(mt_interface){
+                transducer->logical_max_x = mt_interface->logical_max_x;
+                transducer->logical_max_y = mt_interface->logical_max_y;
             }
+            transducer->coordinates.x.update(state->x, timestamp);
+            transducer->coordinates.y.update(state->y, timestamp);
+            transducer->tip_switch.update(1, timestamp);
+            transducer->id = i;
+            transducer->secondary_id = i;
+            count++;
+        } else{
+            transducer->id = i;
+            transducer->secondary_id = i;
+            transducer->coordinates.x.update(transducer->coordinates.x.last.value, timestamp);
+            transducer->coordinates.y.update(transducer->coordinates.y.last.value, timestamp);
+            transducer->tip_switch.update(0, timestamp);
         }
+    }
     VoodooI2CMultitouchEvent event;
     event.contact_count = count;
     event.transducers = transducers;
@@ -453,9 +443,9 @@ void ApplePS2FocalTechTouchPad::setTouchPadEnable( bool enable )
     // Instructs the trackpad to start or stop the reporting of data packets.
     // It is safe to issue this request from the interrupt/completion context.
     //
-
+    
     TPS2Request<1> request;
-
+    
     // (mouse or pad enable/disable command)
     request.commands[0].command = kPS2C_SendMouseCommandAndCompareAck;
     request.commands[0].inOrOut = enable ? kDP_Enable : kDP_SetDefaultsAndDisable;
@@ -477,9 +467,9 @@ void ApplePS2FocalTechTouchPad::setDevicePowerState( UInt32 whatToDo )
             //
             setTouchPadEnable( false );
             break;
-
+            
         case kPS2C_EnableDevice:
-
+            
             //
             // Finally, we enable the trackpad itself, so that it may
             // start reporting asynchronous events.
@@ -584,14 +574,14 @@ IOReturn ApplePS2FocalTechTouchPad::message(UInt32 type, IOService* provider, vo
     if(type == kPS2M_notifyKeyPressed){
         // remember last time key pressed... this can be used in
         // interrupt handler to detect unintended input while typing
-
+        
         PS2KeyInfo* pInfo = (PS2KeyInfo*)argument;
         keytime = pInfo->time;
-                
+        
         // Perform a manual Reset Touchpad when F7 key is pressed this help
         // when Touchpad device is disabled accidently, Temprary solution until
         // i understand the functionality of OEM build-in Touchpad Disable Key
-                
+        
         if(pInfo->goingDown && pInfo->adbKeyCode == 0x62){
             _ringBuffer.reset();
             _packetByteCount = 0;
@@ -600,7 +590,7 @@ IOReturn ApplePS2FocalTechTouchPad::message(UInt32 type, IOService* provider, vo
             switchProtocol();
             setTouchPadEnable(true);
             _device->unlock();
-            }
         }
+    }
     return kIOReturnSuccess;
 }
