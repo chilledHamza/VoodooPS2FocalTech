@@ -6,12 +6,12 @@
 //  Copyright © 2017 Alexandre Daoud. All rights reserved.
 //
 
-#ifndef VoodooI2CMultitouchInterface_hpp
-#define VoodooI2CMultitouchInterface_hpp
+#ifndef VoodooPS2MultitouchInterface_hpp
+#define VoodooPS2MultitouchInterface_hpp
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOKitKeys.h>
-#include "LegacyIOService.h"
+#include <IOKit/IOService.h>
 
 #include "MultitouchHelpers.hpp"
 
@@ -20,11 +20,11 @@
 enum {
     // transforms
     kIOFBRotateFlags                    = 0x0000000f,
-    
+
     kIOFBSwapAxes                       = 0x00000001,
     kIOFBInvertX                        = 0x00000002,
     kIOFBInvertY                        = 0x00000004,
-    
+
     kIOFBRotate0                        = 0x00000000,
     kIOFBRotate90                       = kIOFBSwapAxes | kIOFBInvertX,
     kIOFBRotate180                      = kIOFBInvertX  | kIOFBInvertY,
@@ -39,7 +39,7 @@ class VoodooPS2MultitouchEngine;
  * This allows for situations in which different multitouch engines handle different gestures.
  */
 
-class VoodooPS2MultitouchInterface : public IOService {
+class EXPORT VoodooPS2MultitouchInterface : public IOService {
   OSDeclareDefaultStructors(VoodooPS2MultitouchInterface);
 
  public:
@@ -57,13 +57,27 @@ class VoodooPS2MultitouchInterface : public IOService {
 
     void handleInterruptReport(VoodooI2CMultitouchEvent event, AbsoluteTime timestamp);
 
-    /* Called by <VoodooI2CMultitouchEngine> to open a client connection
-     * @client An instance of <VoodooI2CMultitouchEngine> that wishes to be a client
+    /* Controls the open behavior of <VoodooPS2MultitouchInterface>
+     * @forClient An instance of <VoodooPS2MultitouchEngine> that wishes to be a client
+     * @options Options avaliable for the open
      *
      * @return *true* upon successful opening, *false* otherwise
      */
 
-    bool open(IOService* client);
+    bool handleOpen(IOService* forClient, IOOptionBits options, void* arg) override;
+
+    /* Controls the close behavior of <VoodooPS2MultitouchInterface>
+     * @forClient An instance of <VoodooPS2MultitouchEngine> that wishes to close the connection
+     * @options Options avaliable for the close
+     */
+
+    void handleClose(IOService* client, IOOptionBits options) override;
+    
+    
+    /* Provides a check if the calling IOService instance has called open
+     * @forClient An instance of <VoodooI2CMultitouchEngine> that wishes to check if it has called open
+     */
+    bool handleIsOpen(const IOService *forClient ) const override;
 
     /* Orders engines according to <VoodooI2CMultitouchEngine::getScore>
      * @a The first engine in the comparison
@@ -93,4 +107,4 @@ class VoodooPS2MultitouchInterface : public IOService {
 };
 
 
-#endif /* VoodooI2CMultitouchInterface_hpp */
+#endif /* VoodooPS2MultitouchInterface_hpp */

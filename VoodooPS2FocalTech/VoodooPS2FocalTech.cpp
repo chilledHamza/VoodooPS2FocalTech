@@ -245,7 +245,7 @@ void ApplePS2FocalTechTouchPad::stop( IOService * provider )
 bool ApplePS2FocalTechTouchPad::publish_multitouch_interface() {
     mt_interface = new VoodooPS2MultitouchInterface();
     if (!mt_interface) {
-        IOLog("%s :: No memory to allocate VoodooI2CMultitouchInterface instance\n", getName());
+        IOLog("%s :: No memory to allocate VoodooPS2MultitouchInterface instance\n", getName());
         goto multitouch_exit;
     }
     if (!mt_interface->init(NULL)) {

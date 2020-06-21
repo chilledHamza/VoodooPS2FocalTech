@@ -6,14 +6,18 @@
 //  Copyright © 2017 Alexandre Daoud. All rights reserved.
 //
 
-#ifndef VoodooI2CDigitiserTransducer_hpp
-#define VoodooI2CDigitiserTransducer_hpp
+#ifndef VoodooPS2DigitiserTransducer_hpp
+#define VoodooPS2DigitiserTransducer_hpp
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOKitKeys.h>
 #include <libkern/c++/OSObject.h>
 #include <libkern/c++/OSDictionary.h>
 #include <IOKit/hid/IOHIDElement.h>
+
+#ifndef EXPORT
+#define EXPORT __attribute__((visibility("default")))
+#endif
 
 struct ValueWithTime {
     UInt16 value = 0;
@@ -81,7 +85,7 @@ typedef struct {
 
 /* Represents a transducer of a physical digitiser device */
 
-class VoodooPS2DigitiserTransducer : public OSObject {
+class EXPORT VoodooPS2DigitiserTransducer : public OSObject {
     OSDeclareDefaultStructors(VoodooPS2DigitiserTransducer);
     
 public:
@@ -98,7 +102,7 @@ public:
     
     DigitiserTransducerButtonState tip_switch;
     TimeTrackedValue tip_pressure;
-
+    
     TimeTrackedValue touch_major;
     TimeTrackedValue touch_minor;
     
@@ -127,14 +131,11 @@ public:
      *
      * @return A pointer to an instance of <VoodooI2CDigitiserTransducer>
      */
-    static
-#if defined(__clang_major__) && __clang_major__ >= 11
-	LIBKERN_RETURNS_RETAINED
-#endif
-	VoodooPS2DigitiserTransducer* transducer(DigitiserTransducerType transducer_type, IOHIDElement* digitizer_collection);
+    
+    static VoodooPS2DigitiserTransducer* transducer(DigitiserTransducerType transducer_type, IOHIDElement* digitizer_collection);
 protected:
 private:
 };
 
 
-#endif /* VoodooI2CDigitiserTransducer_hpp */
+#endif /* VoodooPS2DigitiserTransducer_hpp */

@@ -6,12 +6,12 @@
 //  Copyright © 2017 Alexandre Daoud. All rights reserved.
 //
 
-#ifndef VoodooI2CMultitouchEngine_hpp
-#define VoodooI2CMultitouchEngine_hpp
+#ifndef VoodooPS2MultitouchEngine_hpp
+#define VoodooPS2MultitouchEngine_hpp
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOKitKeys.h>
-#include "LegacyIOService.h"
+#include <IOKit/IOService.h>
 
 #include "MultitouchHelpers.hpp"
 
@@ -19,7 +19,7 @@ class VoodooPS2MultitouchInterface;
 
 /* Base class that all mutltitouch engines should inherit from */
 
-class VoodooPS2MultitouchEngine : public IOService {
+class EXPORT VoodooPS2MultitouchEngine : public IOService {
   OSDeclareDefaultStructors(VoodooPS2MultitouchEngine);
 
  public:
@@ -41,6 +41,8 @@ class VoodooPS2MultitouchEngine : public IOService {
 
     virtual MultitouchReturn handleInterruptReport(VoodooI2CMultitouchEvent event, AbsoluteTime timestamp);
 
+    bool willTerminate(IOService* provider, IOOptionBits options) override;
+
     /* Sets up the multitouch engine
      * @provider The <VoodooI2CMultitouchInterface> that we have matched against
      *
@@ -49,19 +51,8 @@ class VoodooPS2MultitouchEngine : public IOService {
      * @return *true* upon successful start, *false* otherwise
      */
 
-    virtual bool start(IOService* provider) override;
-
-    /* Stops the multitouch engine
-     * @provider The <VoodooI2CMultitouchInterface> that we have matched against
-     *
-     * This function is intended to be overwritten by an inherited class but should still be called at the end of the the overwritten
-     * function.
-     */
-
-    virtual void stop(IOService* provider) override;
-
- private:
+    virtual bool start(IOService* provider);
 };
 
 
-#endif /* VoodooI2CMultitouchEngine_hpp */
+#endif /* VoodooPS2MultitouchEngine_hpp */

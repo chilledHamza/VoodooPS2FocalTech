@@ -10,7 +10,7 @@
 #define MultitouchHelpers_hpp
 
 #include <IOKit/IOLib.h>
-#include "LegacyIOService.h"
+#include <IOKit/IOService.h>
 
 typedef struct {
     UInt8 contact_count;
@@ -21,5 +21,9 @@ typedef UInt32 MultitouchReturn;
 
 #define MultitouchReturnContinue 0x0
 #define MultitouchReturnBreak 0x1
+
+#ifndef EXPORT
+#define EXPORT __attribute__((visibility("default")))
+#endif
 
 #endif /* MultitouchHelpers_hpp */

@@ -11,30 +11,37 @@
 
 #include <IOKit/IOLib.h>
 #include <IOKit/IOKitKeys.h>
-#include "LegacyIOService.h"
+#include <IOKit/IOService.h>
 
+#include "../VoodooPS2MultitouchInterface.hpp"
 #include "../VoodooPS2MultitouchEngine.hpp"
-#include "VoodooPS2MT2SimulatorDevice.hpp"
-#include "VoodooPS2MT2ActuatorDevice.hpp"
+#include "../VoodooPS2DigitiserTransducer.hpp"
 
-class VoodooPS2NativeEngine : public VoodooPS2MultitouchEngine {
+#include "../../VoodooInputMultitouch/VoodooInputTransducer.h"
+#include "../../VoodooInputMultitouch/VoodooInputMessages.h"
+
+class EXPORT VoodooPS2NativeEngine : public VoodooPS2MultitouchEngine {
     OSDeclareDefaultStructors(VoodooPS2NativeEngine);
     
-public:
-    bool attach(IOService* provider) override;
-    void detach(IOService* provider) override;
-    bool init(OSDictionary* properties) override;
-    void free() override;
+    VoodooInputEvent message;
+    VoodooPS2MultitouchInterface* parentProvider;
+    IOService* voodooInputInstance;
+
+    bool lastIsForceClickEnabled = true;
+    AbsoluteTime lastForceClickPropertyUpdateTime;
+
+    bool isForceClickEnabled();
+ public:
     bool start(IOService* provider) override;
     void stop(IOService* provider) override;
     
-    MultitouchReturn handleInterruptReport(VoodooI2CMultitouchEvent event, AbsoluteTime timestamp) override;
+    bool handleOpen(IOService *forClient, IOOptionBits options, void *arg) override;
+    bool handleIsOpen(const IOService *forClient) const override;
+    void handleClose(IOService *forClient, IOOptionBits options) override;
     
-    IOService* parent;
-    
-private:
-    VoodooPS2MT2SimulatorDevice* simulator;
-    VoodooPS2MT2ActuatorDevice* actuator;
+    MultitouchReturn handleInterruptReport(VoodooI2CMultitouchEvent event, AbsoluteTime timestamp);
+ private:
+    int stylus_check = 0;
 };
 
 
