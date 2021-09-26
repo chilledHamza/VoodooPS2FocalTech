@@ -1,15 +1,16 @@
 
 ## VoodooPS2FocalTech
 
-VoodooPS2FocalTech is kernel extension for FocalTech Touchpad found in Haier Y11C Notebook (ACPI device name FTE0001). VoodooPS2FocalTech support up to 4 fingers and Multi-Finger  gestures. 
+VoodooPS2FocalTech is kernel extension for FocalTech Touchpad found in Haier Y11C Notebook (ACPI device name FTE0001). VoodooPS2FocalTech support up to 4 fingers with Multi-touch gestures. 
 
-* Note: pressing Fn + F7  disable the Touchpad device, but most of the times when device is enabled it is out of sync and doesn't work anymore (reboot required). To resync press F7 key (after enabling touchpad with Fn + F7)
+* Note: pressing Fn + F7  disable/enable Touchpad device, but mostly when device is re-enabled it is "out of sync". To resync press F7 key (device must be enabled for resync to work)
 
 ## Installation
-* Download [VoodooPS2Controller](https://github.com/acidanthera/VoodooPS2) (version 2.0.4 or higher required)
-* Remove VoodooPS2Mouse and VoodooPS2Trackpad kernel extensions from `VoodooPS2Controller.kext/Contents/PlugIns/`
-* Copy VoodooPS2FocalTech to `VoodooPS2Controller.kext/Contents/PlugIns/`
-* Finally Install modified VoodooPS2Controller to `/Library/Extensions/` and Reboot
+* Download [VoodooPS2Controller](https://github.com/acidanthera/VoodooPS2/releases) (v2.2.5 or above)
+* Disable VoodooPS2Mouse, VoodooPS2Trackpad and VoodooInput PlugIns in `/EFI/OC/config.plist`
+* Copy VoodooPS2FocalTech to /`EFI/OC/Kexts/`
+* Add VoodooPS2FocalTech in `config.plist under Kernel -> Add` after VoodooPS2Controller entry
+* Save config.plist and Reboot
   
 ## Supported Gestures
 

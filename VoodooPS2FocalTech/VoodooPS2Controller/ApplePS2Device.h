@@ -2,13 +2,13 @@
  * Copyright (c) 1998-2000 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_LICENSE_HEADER_START@
- * 
+ *
  * The contents of this file constitute Original Code as defined in and
  * are subject to the Apple Public Source License Version 1.1 (the
  * "License").  You may not use this file except in compliance with the
  * License.  Please obtain a copy of the License at
  * http://www.apple.com/publicsource and read it before using this file.
- * 
+ *
  * This Original Code and all software distributed under the License are
  * distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, EITHER
  * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
@@ -16,7 +16,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT.  Please see the
  * License for the specific language governing rights and limitations
  * under the License.
- * 
+ *
  * @APPLE_LICENSE_HEADER_END@
  */
 
@@ -27,6 +27,7 @@
 #include <kern/queue.h>
 #include "LegacyIOService.h"
 #include <IOKit/IOLib.h>
+#include <IOKit/IOInterruptEventSource.h>
 #include <architecture/i386/pio.h>
 
 #ifdef DEBUG_MSG
@@ -81,6 +82,7 @@
 #define kCP_ReadControllerRAMBase      0x21 //
 #define kCP_SetCommandByte             0x60 // (keyboard+mouse)
 #define kCP_WriteControllerRAMBase     0x61 //
+#define kCP_TransmitToMuxedMouse       0x90 // (muxed mouse)
 #define kCP_TestPassword               0xA4 //
 #define kCP_GetPassword                0xA5 //
 #define kCP_VerifyPassword             0xA6 //
@@ -258,16 +260,12 @@ public:
 // o  kPS2C_ReadDataAndCompare:
 //    o  Description: Reads the next available byte off the data port (60h),
 //                    and compares it with the byte in the In Field.  If the
-//                    comparison fails, the request is aborted (refer to the 
+//                    comparison fails, the request is aborted (refer to the
 //                    commandsCount field in the request structure).
 //    o  In Field:    Holds byte that comparison should be made to.
 //
 // o  kPS2C_WriteDataPort:
 //    o  Description: Writes the byte in the In Field to the data port (60h).
-//    o  In Field:    Holds byte that should be written.
-//
-// o  kPS2C_WriteCommandPort:
-//    o  Description: Writes the byte in the In Field to the command port (64h).
 //    o  In Field:    Holds byte that should be written.
 //
 
@@ -276,10 +274,7 @@ enum PS2CommandEnum
   kPS2C_ReadDataPort,
   kPS2C_ReadDataPortAndCompare,
   kPS2C_WriteDataPort,
-  kPS2C_WriteCommandPort,
-  kPS2C_SendMouseCommandAndCompareAck,
-  kPS2C_ReadMouseDataPort,
-  kPS2C_ReadMouseDataPortAndCompare,
+  kPS2C_SendCommandAndCompareAck,
   kPS2C_FlushDataPort,
   kPS2C_SleepMS,
   kPS2C_ModifyCommandByte,
@@ -411,6 +406,7 @@ protected:
         { ::operator delete(p); }
 
 public:
+    size_t              port;
     UInt8               commandsCount;
     void *              completionTarget;
     PS2CompletionAction completionAction;
@@ -516,6 +512,9 @@ typedef void (*PS2PowerControlAction)(void * target, UInt32 whatToDo);
 // Published property for devices to express interest in receiving messages
 #define kDeliverNotifications   "RM,deliverNotifications"
 
+// Published property for device nub port location
+#define kPortKey    "Port Num"
+
 typedef void (*PS2MessageAction)(void* target, int message, void* data);
 
 enum
@@ -524,13 +523,25 @@ enum
     kPS2M_setDisableTouchpad = iokit_vendor_specific_msg(100),   // set disable/enable touchpad (data is bool*)
     kPS2M_getDisableTouchpad = iokit_vendor_specific_msg(101),   // get disable/enable touchpad (data is bool*)
     kPS2M_notifyKeyPressed = iokit_vendor_specific_msg(102),     // notify of time key pressed (data is PS2KeyInfo*)
+
+    kPS2M_notifyKeyTime = iokit_vendor_specific_msg(110),        // notify of timestamp a non-modifier key was pressed (data is uint64_t*)
+
+    kPS2M_resetTouchpad = iokit_vendor_specific_msg(151),        // Force touchpad reset (data is int*)
     
-    kPS2M_notifyKeyTime = iokit_vendor_specific_msg(110)        // notify of timestamp a non-modifier key was pressed (data is uint64_t*)
+    // from trackpad on I2C/SMBus
+    kPS2M_SMBusStart = iokit_vendor_specific_msg(152),          // Reset, disable PS2 comms to not interfere with SMBus comms
+    
+    // from sensor (such as yoga mode indicator) to keyboard
+    kPS2K_setKeyboardStatus = iokit_vendor_specific_msg(200),   // set disable/enable keyboard (data is bool*)
+    kPS2K_getKeyboardStatus = iokit_vendor_specific_msg(201),   // get disable/enable keyboard (data is bool*)
+
+    // from OEM ACPI (WMI) events to keyboard
+    kPS2K_notifyKeystroke = iokit_vendor_specific_msg(202),     // notify of key press (data is PS2KeyInfo*), in the opposite direction of kPS2M_notifyKeyPressed
 };
 
 typedef struct PS2KeyInfo
 {
-    int64_t time;
+    uint64_t time;
     UInt16  adbKeyCode;
     bool    goingDown;
     bool    eatKey;
@@ -547,17 +558,6 @@ enum
   kPS2C_EnableDevice
 };
 
-// PS/2 device types.
-
-typedef enum
-{
-    kDT_Keyboard,
-    kDT_Mouse,
-#if WATCHDOG_TIMER
-    kDT_Watchdog,
-#endif
-} PS2DeviceType;
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ApplePS2Device Class Declaration
 //
@@ -571,9 +571,10 @@ class EXPORT ApplePS2Device : public IOService
 
 protected:
     ApplePS2Controller* _controller;
-    PS2DeviceType       _deviceType;
+    size_t              _port;
 
 public:
+    bool init(size_t port);
     bool attach(IOService * provider) override;
     void detach(IOService * provider) override;
 
@@ -594,6 +595,11 @@ public:
 
     virtual void installPowerControlAction(OSObject *, PS2PowerControlAction);
     virtual void uninstallPowerControlAction();
+    
+    virtual PS2InterruptResult interruptAction(UInt8);
+    virtual void packetActionInterrupt();
+    void packetAction(IOInterruptEventSource *, int);
+    virtual void powerAction(UInt32);
 
     // Messaging
     virtual void dispatchMessage(int message, void *data);
@@ -605,6 +611,15 @@ public:
 
     // Controller access
     virtual ApplePS2Controller* getController();
+private:
+    PS2InterruptAction      _interrupt_action {nullptr};
+    PS2PacketAction         _packet_action {nullptr};
+    PS2PowerControlAction   _power_action {nullptr};
+    
+    IOWorkLoop * _workloop {nullptr};
+    IOInterruptEventSource * _interruptSource {nullptr};
+    
+    OSObject* _client {nullptr};
 };
 
 #if 0   // Note: Now using architecture/i386/pio.h (see above)

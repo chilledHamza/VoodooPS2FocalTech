@@ -447,7 +447,7 @@ void ApplePS2FocalTechTouchPad::setTouchPadEnable( bool enable )
     TPS2Request<1> request;
     
     // (mouse or pad enable/disable command)
-    request.commands[0].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[0].command = kPS2C_SendCommandAndCompareAck;
     request.commands[0].inOrOut = enable ? kDP_Enable : kDP_SetDefaultsAndDisable;
     request.commandsCount = 1;
     assert(request.commandsCount <= countof(request.commands));
@@ -489,17 +489,17 @@ void ApplePS2FocalTechTouchPad::doHardwareReset()
 {
     TPS2Request<9> request;
     int i = 0;
-    request.commands[i].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[i].command = kPS2C_SendCommandAndCompareAck;
     request.commands[i++].inOrOut = kDP_Reset;
-    request.commands[i].command = kPS2C_ReadMouseDataPortAndCompare;
+    request.commands[i].command = kPS2C_ReadDataPortAndCompare;
     request.commands[i++].inOrOut = 0xAA;
-    request.commands[i].command = kPS2C_ReadMouseDataPortAndCompare;
+    request.commands[i].command = kPS2C_ReadDataPortAndCompare;
     request.commands[i++].inOrOut = 0x00;
-    request.commands[i].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[i].command = kPS2C_SendCommandAndCompareAck;
     request.commands[i++].inOrOut = kDP_Reset;
-    request.commands[i].command = kPS2C_ReadMouseDataPortAndCompare;
+    request.commands[i].command = kPS2C_ReadDataPortAndCompare;
     request.commands[i++].inOrOut = 0xAA;
-    request.commands[i].command = kPS2C_ReadMouseDataPortAndCompare;
+    request.commands[i].command = kPS2C_ReadDataPortAndCompare;
     request.commands[i++].inOrOut = 0x00;
     request.commands[i].command = kPS2C_WriteDataPort;
     request.commands[i++].inOrOut = kDP_GetId;
@@ -521,13 +521,13 @@ void ApplePS2FocalTechTouchPad::doHardwareReset()
 void ApplePS2FocalTechTouchPad::switchProtocol()
 {
     TPS2Request<4> request;
-    request.commands[0].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[0].command = kPS2C_SendCommandAndCompareAck;
     request.commands[0].inOrOut = kDP_SetMouseSampleRate;
-    request.commands[1].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[1].command = kPS2C_SendCommandAndCompareAck;
     request.commands[1].inOrOut = kSetDeviceMode;
-    request.commands[2].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[2].command = kPS2C_SendCommandAndCompareAck;
     request.commands[2].inOrOut = kDP_SetMouseSampleRate;
-    request.commands[3].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[3].command = kPS2C_SendCommandAndCompareAck;
     request.commands[3].inOrOut = kDeviceModeAdvanced;
     request.commandsCount = 4;
     assert(request.commandsCount <= countof(request.commands));
@@ -536,15 +536,15 @@ void ApplePS2FocalTechTouchPad::switchProtocol()
 
 void ApplePS2FocalTechTouchPad::getProductID(FTE_BYTES_t *bytes){
     TPS2Request<8> request;
-    request.commands[0].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[0].command = kPS2C_SendCommandAndCompareAck;
     request.commands[0].inOrOut = kDP_SetMouseSampleRate;
-    request.commands[1].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[1].command = kPS2C_SendCommandAndCompareAck;
     request.commands[1].inOrOut = kGetProductId;
-    request.commands[2].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[2].command = kPS2C_SendCommandAndCompareAck;
     request.commands[2].inOrOut = kDP_SetMouseSampleRate;
-    request.commands[3].command = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[3].command = kPS2C_SendCommandAndCompareAck;
     request.commands[3].inOrOut = kGetProductId;
-    request.commands[4].command  = kPS2C_SendMouseCommandAndCompareAck;
+    request.commands[4].command  = kPS2C_SendCommandAndCompareAck;
     request.commands[4].inOrOut  = kDP_GetMouseInformation;
     request.commands[5].command  = kPS2C_ReadDataPort;
     request.commands[5].inOrOut  = 0;
